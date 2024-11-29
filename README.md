@@ -1,16 +1,13 @@
-# Vue Vine App
+# Vue Vine REPL
 
-This project was generated with [create-vue-vine](https://github.com/vue-vine/vue-vine/tree/main/packages/create-vue-vine).
+Online preview of Vue Vine project development.
 
-Learn more about Vue Vine in the [Vue Vine documentation](https://vue-vine.dev/)
+Here you can see the most common use cases:
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Vue Vine Extension](https://marketplace.visualstudio.com/items?itemName=ShenQingchuan.vue-vine-extension).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- Syntax highlighting with [@shiki/monaco](https://shiki.matsu.io/)
+- Integrate with [Vite](https://vite.dev) plugin
+- Using [UnoCSS](https://unocss.dev/)
+- Show ESLint diagnostics
 
 ## Project Setup
 
