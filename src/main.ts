@@ -13,6 +13,7 @@ import './styles/main.css'
 Sandbox.create()
   .then(() => {
     console.log('[REPL] Sandbox created.')
+    document.getElementById('loadingSpinner')?.remove()
 
     const app = createApp(VineApp)
     app.use(router)

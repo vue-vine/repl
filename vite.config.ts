@@ -5,13 +5,13 @@ import { defineConfig } from 'vite'
 import { VineVitePlugin } from 'vue-vine/vite'
 
 export default defineConfig({
-  // server: {
-  //   headers: {
-  //     'Cross-Origin-Embedder-Policy': 'require-corp',
-  //     'Cross-Origin-Opener-Policy': 'same-origin',
-  //     'Cross-Origin-Resource-Policy': 'cross-origin',
-  //   },
-  // },
+  server: {
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Resource-Policy': 'cross-origin',
+    },
+  },
   resolve: {
     conditions: ['dev'],
     alias: {
@@ -40,18 +40,5 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see uno.config.ts for config
     Unocss(),
-
-    {
-      name: 'add-cors',
-
-      configureServer(server) {
-        server.middlewares.use((_req, res, next) => {
-          res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
-          res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
-          res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
-          next()
-        })
-      },
-    },
   ],
 })

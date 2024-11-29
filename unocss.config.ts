@@ -12,6 +12,7 @@ export default defineConfig({
   content: {
     pipeline: {
       include: [
+        'index.html',
         'src/**/*.vine.ts',
       ],
     },

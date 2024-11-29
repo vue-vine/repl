@@ -1,0 +1,198 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "scopeName": "source.vine-vue-template-inject",
+  "injectionSelector": "L:meta.function -comment.line -comment.block, L:meta.arrow.ts -comment.line -comment.block",
+  "patterns": [
+    {
+      "name": "source.vine-vue-template.embedded.ts",
+      "begin": "vine(`)",
+      "beginCaptures": {
+        "0": { "name": "entity.name.function.macro.vine-template.ts" },
+        "1": { "name": "punctuation.definition.string.begin.vine-template.ts" }
+      },
+      "end": "`",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.vine-template.ts" }
+      },
+      "patterns": [
+        { "include": "source.vine-vue-template" }
+      ]
+    },
+
+    {
+      "name": "source.vine-prop.with-decorator.embedded.ts",
+      "begin": "(vineProp)(?:(\\.)([\\w]+))?(\\()",
+      "beginCaptures": {
+        "1": { "name": "support.name.macro.vine-prop.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "support.name.macro.decorator.vine-prop.ts" },
+        "4": { "name": "meta.brace.round.ts" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.ts" }
+      ]
+    },
+
+    {
+      "begin": "(vineStyle)(?:(\\.)(import))(\\()",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-css.start.ts" },
+        "1": { "name": "support.name.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "support.name.macro.decorator.vine-style-import.ts" },
+        "4": { "name": "meta.brace.round.ts" }
+      },
+      "end": "(?:\\s*)(\\))(?:(\\.)(scoped)(\\()(\\)))?",
+      "endCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-css.end.ts" },
+        "1": { "name": "meta.brace.round.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "support.name.macro.decorator.vine-style-scoped.ts" },
+        "4": { "name": "meta.brace.round.ts" },
+        "5": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.ts" }
+      ]
+    },
+
+    {
+      "begin": "(vineStyle)(?:(\\.)(scoped))?(\\()(`)",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-css.start.ts" },
+        "1": { "name": "support.name.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "support.name.macro.decorator.vine-style-scoped.ts" },
+        "4": { "name": "meta.brace.round.ts" },
+        "5": { "name": "punctuation.definition.string.begin.vine-css.ts" }
+      },
+      "end": "(`)(?:\\s*)(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.vine-css.ts" },
+        "2": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.css" }
+      ]
+    },
+    {
+      "begin": "(vineStyle)(?:(\\.)scoped)?(\\()(css)(`)",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-css.start.ts" },
+        "1": { "name": "support.name.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "meta.brace.round.ts" },
+        "4": { "name": "support.style.macro.vine-css.ts" },
+        "5": { "name": "punctuation.definition.string.begin.vine-css.ts" }
+      },
+      "end": "(`)(?:\\s*)(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.vine-css.ts" },
+        "2": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.css" }
+      ]
+    },
+    {
+      "begin": "(vineStyle)(?:(\\.)scoped)?(\\()(scss)(`)",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-scss.start.ts" },
+        "1": { "name": "support.name.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "meta.brace.round.ts" },
+        "4": { "name": "support.style.macro.vine-scss.ts" },
+        "5": { "name": "punctuation.definition.string.begin.vine-scss.ts" }
+      },
+      "end": "(`)(?:\\s*)(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.vine-scss.ts" },
+        "2": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.css.scss" }
+      ]
+    },
+    {
+      "begin": "(vineStyle)(?:(\\.)scoped)?(\\()(sass)(`)",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-sass.start.ts" },
+        "1": { "name": "support.name.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "meta.brace.round.ts" },
+        "4": { "name": "support.style.macro.vine-sass.ts" },
+        "5": { "name": "punctuation.definition.string.begin.vine-sass.ts" }
+      },
+      "end": "(`)(?:\\s*)(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.vine-sass.ts" },
+        "2": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.css.sass" }
+      ]
+    },
+    {
+      "begin": "(vineStyle)(?:(\\.)scoped)?(\\()(less)(`)",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-less.start.ts" },
+        "1": { "name": "support.name.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "meta.brace.round.ts" },
+        "4": { "name": "support.style.macro.vine-less.ts" },
+        "5": { "name": "punctuation.definition.string.begin.vine-less.ts" }
+      },
+      "end": "(`)(?:\\s*)(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.vine-less.ts" },
+        "2": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.css.less" }
+      ]
+    },
+    {
+      "begin": "(vineStyle)(?:(\\.)scoped)?(\\()(stylus)(`)",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-stylus.start.ts" },
+        "1": { "name": "support.name.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "meta.brace.round.ts" },
+        "4": { "name": "support.style.macro.vine-stylus.ts" },
+        "5": { "name": "punctuation.definition.string.begin.vine-stylus.ts" }
+      },
+      "end": "(`)(?:\\s*)(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.vine-stylus.ts" },
+        "2": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.stylus" }
+      ]
+    },
+    {
+      "begin": "(vineStyle)(?:(\\.)scoped)?(\\()(postcss)(`)",
+      "beginCaptures": {
+        "0": { "name": "meta.name.function.macro.vine-postcss.start.ts" },
+        "1": { "name": "support.style.macro.vine-style.ts" },
+        "2": { "name": "punctuation.accessor.ts" },
+        "3": { "name": "meta.brace.round.ts" },
+        "4": { "name": "support.style.macro.vine-postcss.ts" },
+        "5": { "name": "punctuation.definition.string.begin.vine-postcss.ts" }
+      },
+      "end": "(`)(?:\\s*)(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.vine-postcss.ts" },
+        "2": { "name": "meta.brace.round.ts" }
+      },
+      "patterns": [
+        { "include": "source.css.postcss" }
+      ]
+    }
+  ],
+  "repository": {}
+}
