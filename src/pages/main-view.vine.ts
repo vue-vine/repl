@@ -1,5 +1,6 @@
 import { MonacoEditor } from '@/components/monaco/monaco.vine'
 import { initProjectFileStore } from '@/stores/project-file'
+import { convertToPlainFileMap } from '@/tools/convert-to-file-map'
 import { FitAddon } from '@xterm/addon-fit'
 import { Terminal } from '@xterm/xterm'
 
@@ -27,7 +28,7 @@ export function MainView() {
       return
     }
 
-    fileTree.value = sandbox.fileTree
+    fileTree.value = convertToPlainFileMap(sandbox.fileTree)
 
     const fitAddon = new FitAddon()
     const terminal = new Terminal({
@@ -72,7 +73,7 @@ export function MainView() {
       <div class="flex-1 col-flex">
         <div class="row-flex flex-1">
           <div class="w-50% h-full border-0.5px border-zinc-7">
-            <MonacoEditor @change="() => {}" />
+            <MonacoEditor />
           </div>
           <iframe
             ref="iframeRef"

@@ -1,12 +1,12 @@
-import type { FileSystemTree } from '@webcontainer/api'
 import { defineStore } from '../tools/define-store'
 
 export interface FileDescriptor {
   path: string
   content: string
 }
+
 export interface ProjectFileStore {
-  fileTree: Ref<FileSystemTree | undefined>
+  fileTree: Ref<Map<string, string> | undefined>
   activeFile: Ref<FileDescriptor | undefined>
   isTerminalPrepared: Ref<boolean>
 }
