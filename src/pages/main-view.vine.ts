@@ -1,3 +1,4 @@
+import { FileTree } from '@/components/file-tree.vine'
 import { MonacoEditor } from '@/components/monaco/monaco.vine'
 import { initProjectFileStore } from '@/stores/project-file'
 import { convertToPlainFileMap } from '@/tools/convert-to-file-map'
@@ -6,7 +7,7 @@ import { Terminal } from '@xterm/xterm'
 
 function Header() {
   return vine`
-    <header class="row-flex p-4">
+    <header class="row-flex p-4 h-64px">
       <div class="text-2xl">Vue Vine playground</div>
     </header>
   `
@@ -19,6 +20,7 @@ export function MainView() {
 
   const {
     isTerminalPrepared,
+    fileMap,
     fileTree,
   } = initProjectFileStore()
 
@@ -28,7 +30,8 @@ export function MainView() {
       return
     }
 
-    fileTree.value = convertToPlainFileMap(sandbox.fileTree)
+    fileTree.value = sandbox.fileTree
+    fileMap.value = convertToPlainFileMap(sandbox.fileTree)
 
     const fitAddon = new FitAddon()
     const terminal = new Terminal({
@@ -69,22 +72,23 @@ export function MainView() {
 
   return vine`
     <div class="col-flex h-100vh">
-      <Header />
+      <Header class="flex-shrink-0" />
       <div class="flex-1 col-flex">
-        <div class="row-flex flex-1">
-          <div class="w-50% h-full border-0.5px border-zinc-7">
+        <div class="row-flex h-64vh">
+          <div class="w-65% row-flex h-full border-0.5px border-zinc-7">
+            <FileTree />
             <MonacoEditor />
           </div>
           <iframe
             ref="iframeRef"
-            class="w-50% h-full border-0.5px border-zinc-7 p-4"
+            class="w-35% h-full border-0.5px border-zinc-7 p-4"
           />
         </div>
 
-        <div class="relative w-full h-400px">
+        <div class="relative w-full flex-1">
           <div
             ref="terminalSpinner"
-            class="border-0.5px border-zinc-7 shadow row-flex justify-center text-2xl w-full h-400px absolute top-0 left-50% translate-x--50% bg-dark-8"
+            class="border-0.5px border-zinc-7 shadow row-flex justify-center text-2xl w-full h-full absolute top-0 left-50% translate-x--50% bg-dark-8"
           >
             Loading shell environment ...
           </div>

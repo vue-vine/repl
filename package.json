@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@antfu/eslint-config": "^3.9.2",
+    "@iconify/json": "^2.2.281",
     "@shikijs/monaco": "^1.24.0",
     "@vue-vine/eslint-config": "^0.2.5",
     "@vueuse/core": "^11.3.0",

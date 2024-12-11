@@ -42,7 +42,7 @@ export function MonacoEditor() {
   return vine`
     <div
       ref="editorContainer"
-      class="repl-editor w-full h-full"
+      class="repl-editor flex-1 h-full border-r border-gray-200 dark:border-gray-800"
       @keydown.ctrl.s.prevent="handleSaveContent"
       @keydown.meta.s.prevent="handleSaveContent"
     />

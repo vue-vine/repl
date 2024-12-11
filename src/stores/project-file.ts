@@ -1,3 +1,4 @@
+import type { FileSystemTree } from '@webcontainer/api'
 import { defineStore } from '../tools/define-store'
 
 export interface FileDescriptor {
@@ -6,9 +7,11 @@ export interface FileDescriptor {
 }
 
 export interface ProjectFileStore {
-  fileTree: Ref<Map<string, string> | undefined>
+  fileMap: Ref<Map<string, string> | undefined>
+  fileTree: Ref<FileSystemTree | undefined>
   activeFile: Ref<FileDescriptor | undefined>
   isTerminalPrepared: Ref<boolean>
+  setActiveFile: (path: string) => void
 }
 
 export const {
@@ -17,10 +20,27 @@ export const {
 } = defineStore<ProjectFileStore>(
   'project-file-store',
   () => {
+    const fileMap = ref<Map<string, string>>()
+    const fileTree = ref<FileSystemTree>()
+    const activeFile = ref<FileDescriptor>()
+    const isTerminalPrepared = ref(false)
+
+    const setActiveFile = (path: string) => {
+      const content = fileMap.value?.get(path)
+      if (content) {
+        activeFile.value = {
+          path,
+          content,
+        }
+      }
+    }
+
     return {
-      fileTree: ref(undefined),
-      activeFile: ref(undefined),
-      isTerminalPrepared: ref(false),
+      fileMap,
+      fileTree,
+      activeFile,
+      isTerminalPrepared,
+      setActiveFile,
     }
   },
 )

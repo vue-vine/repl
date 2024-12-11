@@ -7,6 +7,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const FileTree: typeof import('./src/components/file-tree.vine')['FileTree']
   const MainView: typeof import('./src/pages/main-view.vine')['MainView']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
