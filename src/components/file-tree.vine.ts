@@ -28,10 +28,17 @@ function FileTreeNode(
     isExpanded.value = !isExpanded.value
   }
 
+  const isActive = computed(() => {
+    return store.activeFile?.value?.path === props.path
+  })
+
   return vine`
     <div class="file-tree-node select-none">
       <div
         class="row-flex py-1 px-2 hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer rounded-md"
+        :class="{
+          'bg-gray-800': isActive,
+        }"
         @click="isDirectory ? toggleExpand() : handleFileClick()"
       >
         <div class="mr-1">

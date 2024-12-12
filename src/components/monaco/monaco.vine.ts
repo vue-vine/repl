@@ -37,7 +37,6 @@ export function MonacoEditor() {
   }
 
   watch(store.activeFile, (file) => {
-    console.log('切换文件:', file?.path)
     if (!editor.value || !file)
       return
 

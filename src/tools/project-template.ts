@@ -53,22 +53,8 @@ html.dark {
       `),
       }),
       'components': dir({
-      // Empty folder
-      }),
-      'pages': dir({
-        'About.vine.ts': file(`
-export function About() {
-  return vine\`
-    <div class="page-about">
-      <h1>About</h1>
-      <p>This is a Vue Vine playground.</p>
-      <p>Made with <a href="https://vue-vine.dev">Vue Vine</a> and <a href="https://webcontainers.io/">WebContainers</a>.</p>
-    </div>
-  \`
-}
-      `),
-        'Home.vine.ts': file(`
-function Header() {
+        'Header.vine.ts': file(`
+export function Header() {
   return vine\`
     <header class="header font-mono">
       <h1>Vue Vine Playground</h1>
@@ -81,6 +67,24 @@ function Header() {
     </header>
   \`
 }
+        `),
+      }),
+      'pages': dir({
+        'About.vine.ts': file(`
+import { Header } from '../components/Header.vine'
+
+export function About() {
+  return vine\`
+    <div class="page-about">
+      <Header />
+      <p>This is a About page.</p>
+      <p>Made with <a href="https://vue-vine.dev">Vue Vine</a> and <a href="https://webcontainers.io/">WebContainers</a>.</p>
+    </div>
+  \`
+}
+      `),
+        'Home.vine.ts': file(`
+import { Header } from '../components/Header.vine'
 
 function Counter() {
   const count = ref(0)

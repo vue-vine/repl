@@ -25,6 +25,7 @@ export function MainView() {
   const {
     isTerminalPrepared,
     fileTree,
+    activeFile,
   } = initProjectFileStore()
 
   onMounted(async () => {
@@ -34,8 +35,11 @@ export function MainView() {
     }
 
     terminalHeight.value = terminalSpinner.value?.clientHeight ?? 0
-
     fileTree.value = sandbox.fileTree
+    activeFile.value = {
+      path: 'src/main.ts',
+      content: (fileTree.value as any).src.directory['main.ts'].file.contents,
+    }
 
     const fitAddon = new FitAddon()
     const terminal = new Terminal({
