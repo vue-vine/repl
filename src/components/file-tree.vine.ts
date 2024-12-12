@@ -1,5 +1,3 @@
-/* eslint-disable prefer-template */
-
 import type { DirectoryNode, FileSystemTree } from '@webcontainer/api'
 import { useProjectFileStore } from '@/stores/project-file'
 import { isDirectoryNode, isFileNode } from '@/tools/file-tree-helpers'
@@ -36,6 +34,10 @@ function FileTreeNode(
     return store.activeFile?.value?.path === props.path
   })
 
+  const getChildPath = (childName: string) => {
+    return `${props.path}/${childName}`
+  }
+
   return vine`
     <div class="file-tree-node select-none">
       <div
@@ -62,12 +64,14 @@ function FileTreeNode(
         class="ml-4 pl-2 border-l dark:border-gray-500:50 border-solid border-l-1"
       >
         <template
-          v-for="(childNode, childName) in (node as DirectoryNode).directory"
+          v-for="(childNode, childName) in (
+            (node as DirectoryNode).directory as Record<string, FileSystemTree[string]>
+          )"
         >
           <FileTreeNode
-            :name="(childName as string)"
+            :name="childName"
             :node="childNode"
-            :path="path + '/' + childName"
+            :path="getChildPath(childName)"
           />
         </template>
       </div>
