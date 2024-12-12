@@ -17,8 +17,12 @@ function FileTreeNode(
 
   // 处理文件点击
   const handleFileClick = () => {
-    if (!isFileNode(props.node))
+    if (
+      !isFileNode(props.node) // Skip when clicking on a symlink
+      || store.activeFile?.value?.path === props.path // Skip when opening the same file
+    ) {
       return
+    }
 
     store.setActiveFile(props.path, props.node)
   }
