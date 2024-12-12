@@ -5,6 +5,9 @@ import { createHighlighterCoreSync } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine-javascript.mjs'
 
 import langCss from 'shiki/langs/css.mjs'
+import langHtml from 'shiki/langs/html.mjs'
+import langJson from 'shiki/langs/json.mjs'
+import langMarkdown from 'shiki/langs/markdown.mjs'
 import langTs from 'shiki/langs/typescript.mjs'
 import themeDark from 'shiki/themes/vitesse-dark.mjs'
 
@@ -63,11 +66,14 @@ export function registerHighlighter() {
       langs: [
         langTs,
         langCss,
+        langHtml,
+        langJson,
+        langMarkdown,
         ...langVine,
       ],
       engine: createJavaScriptRegexEngine(),
     })
-    monaco.languages.register({ id: 'vue' })
+
     shikiToMonaco(highlighter, monaco)
     registered = true
   }

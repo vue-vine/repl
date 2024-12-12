@@ -1,42 +1,86 @@
+import { useProjectFileStore } from '@/stores/project-file'
 import * as monaco from 'monaco-editor-core'
-import { registerHighlighter } from './highlighter'
+import { setupMonaco } from './setup'
+
+const extToLangMap = {
+  ts: 'typescript',
+  js: 'javascript',
+  mjs: 'javascript',
+  json: 'json',
+  svg: 'html',
+  css: 'css',
+  html: 'html',
+  md: 'markdown',
+} as const
 
 export function MonacoEditor() {
   let editorInstance: monaco.editor.IStandaloneCodeEditor
-  const editor = ref<monaco.editor.IStandaloneCodeEditor | null>()
-  const editorContainer = ref<HTMLDivElement | null>(null)
+  const editor = shallowRef<monaco.editor.IStandaloneCodeEditor | null>()
+  const editorContainer = useTemplateRef<HTMLDivElement>('editorContainer')
+  const isSettingModel = ref(false)
 
-  const handleSaveContent = () => {
-    // Todo ...
+  const store = useProjectFileStore()
+
+  // 监听编辑器内容变化
+  const debouncedUpdate = useDebounceFn(async (content: string) => {
+    if (!store.activeFile.value || isSettingModel.value)
+      return
+    await store.updateFileContent(store.activeFile.value.path, content)
+  }, 300)
+
+  const handleSaveContent = async () => {
+    if (!editor.value || !store.activeFile.value)
+      return
+
+    const content = editor.value.getValue()
+    await store.updateFileContent(store.activeFile.value.path, content)
   }
+
+  watch(store.activeFile, (file) => {
+    console.log('切换文件:', file?.path)
+    if (!editor.value || !file)
+      return
+
+    isSettingModel.value = true
+    try {
+      // 获取文件扩展名
+      const ext = file.path.split('.').pop() || ''
+      const language = (
+        extToLangMap[ext as keyof typeof extToLangMap]
+        || 'plaintext'
+      )
+
+      // 为新文件创建新的 model
+      const oldModel = editor.value.getModel()
+      const newModel = monaco.editor.createModel(file.content, language)
+      editor.value.setModel(newModel)
+
+      // 销毁旧的 model 以避免内存泄漏
+      oldModel?.dispose()
+    }
+    finally {
+      isSettingModel.value = false
+    }
+  })
 
   onMounted(() => {
     if (!editorContainer.value) {
       throw new Error('Monaco editor container not found')
     }
 
-    monaco.languages.register({ id: 'typescript' })
-    monaco.languages.register({ id: 'javascript' })
-    monaco.languages.register({ id: 'vine-ts' })
-
-    const { theme } = registerHighlighter()
-    editorInstance = monaco.editor.create(editorContainer.value, {
-      language: 'typescript',
-      value: '',
-      fontSize: 13,
-      tabSize: 2,
-      theme,
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      minimap: {
-        enabled: false,
-      },
-      inlineSuggest: {
-        enabled: false,
-      },
-      fixedOverflowWidgets: true,
-    })
+    const { editorInitOptions } = setupMonaco()
+    editorInstance = monaco.editor.create(editorContainer.value, editorInitOptions)
     editor.value = editorInstance
+
+    // 监听编辑器内容变化
+    editorInstance.onDidChangeModelContent(async () => {
+      console.log('onDidChangeModelContent')
+      if (!editor.value || !store.activeFile.value)
+        return
+
+      const content = editor.value.getValue()
+      debouncedUpdate(content)
+    })
   })
 
   return vine`

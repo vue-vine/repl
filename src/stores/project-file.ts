@@ -1,4 +1,4 @@
-import type { FileSystemTree } from '@webcontainer/api'
+import type { FileNode, FileSystemTree } from '@webcontainer/api'
 import { defineStore } from '../tools/define-store'
 
 export interface FileDescriptor {
@@ -7,11 +7,11 @@ export interface FileDescriptor {
 }
 
 export interface ProjectFileStore {
-  fileMap: Ref<Map<string, string> | undefined>
   fileTree: Ref<FileSystemTree | undefined>
   activeFile: Ref<FileDescriptor | undefined>
   isTerminalPrepared: Ref<boolean>
-  setActiveFile: (path: string) => void
+  setActiveFile: (path: string, node: FileNode) => void
+  updateFileContent: (path: string, content: string) => Promise<void>
 }
 
 export const {
@@ -20,27 +20,35 @@ export const {
 } = defineStore<ProjectFileStore>(
   'project-file-store',
   () => {
-    const fileMap = ref<Map<string, string>>()
     const fileTree = ref<FileSystemTree>()
     const activeFile = ref<FileDescriptor>()
     const isTerminalPrepared = ref(false)
 
-    const setActiveFile = (path: string) => {
-      const content = fileMap.value?.get(path)
-      if (content) {
-        activeFile.value = {
-          path,
-          content,
-        }
+    const setActiveFile = (
+      path: string,
+      node: FileNode,
+    ) => {
+      activeFile.value = {
+        path,
+        content: String(node.file.contents),
       }
     }
 
+    const updateFileContent = async (path: string, content: string) => {
+      if (activeFile.value?.path === path) {
+        activeFile.value.content = content
+      }
+
+      await nextTick()
+      await window.sandbox?.writeFile(path, content)
+    }
+
     return {
-      fileMap,
       fileTree,
       activeFile,
       isTerminalPrepared,
       setActiveFile,
+      updateFileContent,
     }
   },
 )

@@ -5,6 +5,7 @@ import { getProjectTemplate } from './project-template'
 
 const jshFinishSymbol = '[?2004h'
 const workdirName = 'vue-vine-playground'
+const workdirAbsPath = `/home/${workdirName}`
 const jshrc = `
 export PNPM_HOME="/home/.pnpm"
 export PATH="/bin:/usr/bin:/usr/local/bin:/home/.pnpm"
@@ -150,5 +151,14 @@ export class Sandbox {
 
   public async startDevServer() {
     await this.jshRun('pnpm run dev')
+  }
+
+  public async writeFile(path: string, content: string) {
+    const absolutePath = (
+      path.startsWith('/')
+        ? path
+        : `${workdirAbsPath}/${path}`
+    )
+    await this.webcontainerInstance.fs.writeFile(absolutePath, content)
   }
 }
