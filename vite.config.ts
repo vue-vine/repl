@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url'
 import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig } from 'vite'
+import Inspect from 'vite-plugin-inspect'
 import { VineVitePlugin } from 'vue-vine/vite'
 
 export default defineConfig({
@@ -40,5 +41,7 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see uno.config.ts for config
     Unocss(),
+
+    Inspect(),
   ],
 })
